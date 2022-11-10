@@ -41,7 +41,19 @@ void dcBegin() {
 }
 
 void loop() {
-  // Clears the trigPin condition
+  int dist = distanceCheck();
+  if(dist < 50) {
+    while(distance < 50) {
+      engineOn();
+    }
+  } else {
+    engineOff();
+  }
+  
+
+}
+
+int distanceCheck() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   // Sets the trigPin HIGH (ACTIVE) for 10 microseconds
@@ -57,15 +69,8 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
   // will check the distance in centimeters
-  if(distance < 50) {
-    while(distance < 50) {
-      engineOn();
-    }
-  } else {
-    engineOff();
-  }
-  
 
+  return distance;
 }
 
 // void engineOn() {
