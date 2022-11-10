@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 // Ultrasonic Sensor
 #define echoPin 2;
 #define trigPin 3;
@@ -26,7 +28,6 @@ void setup() {
 
   dcBegin();
   buttonBegin();
-
 }
 
 void buttonBegin() {
@@ -40,17 +41,21 @@ void dcBegin() {
   pinMode(enableBridge1, OUTPUT);
 }
 
-void loop() {
-  int dist = distanceCheck();
-  if(dist < 50) {
-    while(distance < 50) {
-      engineOn();
-    }
-  } else {
-    engineOff();
-  }
-  
+// loop
 
+void loop() {
+  int dist;
+  while(dist = distanceCheck() < 25) {
+    dcTurnOn();
+    int tim = rand() % 1000 + 10; // max 1000 * 3 , min 100 * 3
+    dcForward();
+    delay(3 * tim);
+    int tim2 = rand() % 1000 + 10; // max 1000 * 3 , min 100 * 3
+    dcBackward();
+    delay(3 * tim2);
+    dcStop();
+  }
+  dcTurnOff();
 }
 
 int distanceCheck() {
@@ -69,27 +74,12 @@ int distanceCheck() {
   Serial.print(distance);
   Serial.println(" cm");
   // will check the distance in centimeters
-
   return distance;
 }
 
-// void engineOn() {
-//   // everytime the sensor sees if someone is close enough to the wall, it turn's on
-//   // I can put the loop here
-  
-// }
-
-// void engineOff() {
-//   delay(2000);
-//   analogWrite(m1Forward,0);
-// }
-
+// button
 int buttonS() {
   buttonState = digitalRead(buttonPin);  
-}
-
-long distance() {
-  
 }
 
 // h bridge turning on
