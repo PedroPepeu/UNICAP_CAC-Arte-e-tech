@@ -8,7 +8,7 @@ int distance;
 
 int led1 = 3;
 int led2 = 2;
-int led3 = 1;
+int led3 = 4;
 
 void ultraSonicSensor1Setup() {
   pinMode(trigPin1, OUTPUT); // Sets the trigPin as an OUTPUT
