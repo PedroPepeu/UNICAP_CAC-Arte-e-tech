@@ -14,7 +14,7 @@ void ultraSonicSensor1Setup() {
   pinMode(trigPin1, OUTPUT); // Sets the trigPin as an OUTPUT
   pinMode(echoPin1, INPUT); // Sets the echoPin as an INPUT
   Serial.begin(9600); // // Serial Communication is starting with 9600 of baudrate speed
-  Serial.println("Ultrasonic Sensor 1 HC-SR04 Test"); // print some text in Serial Monitor
+  Serial.println("Ultrasonic Sensor 1 HC-SR04 Test");
   Serial.println("with Arduino UNO R3");
 }
 
