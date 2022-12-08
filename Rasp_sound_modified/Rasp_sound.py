@@ -57,8 +57,8 @@ try:
     #Nao ha ninguem:
     if distancia > distancia_maxima and (not parar_musica):
         parar_musica = True
-        for j in range(tempo_encerrar_som+1, 1, -1):
-            volume = round(i/tempo_encerrar_som*100, 2)
+        for j in range(tempo_encerrar_som, -1, -1):
+            volume = round(j/tempo_encerrar_som*100, 2)
             musica.audio_set_volume(volume)
             time.sleep(1)
         musica.stop()
