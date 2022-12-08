@@ -49,20 +49,20 @@ try:
     if distancia <= distancia_maxima:
         parar_musica = False
         musica.play()
-        for i in range(1, tempo_iniciar_som):
-            volume = (round(i/tempo_iniciar_som))*100
+        for i in range(1, tempo_iniciar_som+1):
+            volume = round(i/tempo_iniciar_som*100, 2)
             musica.audio_set_volume(volume)
             time.sleep(1)
 
     #Nao ha ninguem:
     if distancia > distancia_maxima and (not parar_musica):
         parar_musica = True
-        for j in range(tempo_encerrar_som, 1, -1):
-            volume = (round(i/tempo_encerrar_som))*100
+        for j in range(tempo_encerrar_som+1, 1, -1):
+            volume = round(i/tempo_encerrar_som*100, 2)
             musica.audio_set_volume(volume)
             time.sleep(1)
         musica.stop()
-        
+
 except KeyboardInterrupt():
     GPIO.cleanup()
 
