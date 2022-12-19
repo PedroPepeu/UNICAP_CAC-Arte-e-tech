@@ -8,12 +8,12 @@ int distance;
 
 int led6 = 6;
 int led7 = 7;
-int led8 = 8;
-int led9 = 9;
-int led10 = 10;
-int led11 = 11;
-int led12 = 12;
-int led13 = 13;
+
+
+int currentTime = 0;
+int oldTimeSensorOne = 0;
+int oldTimeSensorTwo = 0;
+
 
 void ultraSonicSensor1Setup() {
   pinMode(trigPin1, OUTPUT); // Sets the trigPin as an OUTPUT
@@ -39,70 +39,24 @@ void setup() {
   ultraSonicSensor2Setup();
   pinMode(led6, OUTPUT);
   pinMode(led7, OUTPUT);
-  pinMode(led8, OUTPUT);
-  pinMode(led9, OUTPUT);
-  pinMode(led10, OUTPUT);
-  pinMode(led11, OUTPUT);
-  pinMode(led12, OUTPUT);
-  pinMode(led13, OUTPUT);
-
 }
 
 void loop() {
+  currentTime = millis();
+  
   // put your main code here, to run repeatedly:
   if(distFromUSS1() <= 150) {
     digitalWrite(led6, HIGH);
-    delay(2000);
+    oldTimeSensorOne = millis();
+  }else if((currentTime - oldTimeSensorOne) > 2){
     digitalWrite(led6, LOW);
-    digitalWrite(led7, HIGH);
-    delay(2000);
-    digitalWrite(led7, LOW);
-    digitalWrite(led8, HIGH);
-    delay(2000);
-    digitalWrite(led8, LOW);
-    digitalWrite(led9, HIGH);
-    delay(2000);
-    digitalWrite(led9, LOW);
-    digitalWrite(led10, HIGH);
-    delay(2000);
-    digitalWrite(led10, LOW);
-    digitalWrite(led11, HIGH);
-    delay(2000);
-    digitalWrite(led11, LOW);
-    digitalWrite(led12, HIGH);
-    delay(2000);
-    digitalWrite(led12, LOW);
-    digitalWrite(led13, HIGH);
-    delay(2000);
-    digitalWrite(led13, LOW);
-    
   }
 
   if(distFromUSS2() <= 150) {
-    digitalWrite(led13, HIGH);
-    delay(2000);
-    digitalWrite(led13, LOW);
-    digitalWrite(led12, HIGH);
-    delay(2000);
-    digitalWrite(led12, LOW);
-    digitalWrite(led11, HIGH);
-    delay(2000);
-    digitalWrite(led11, LOW);
-    digitalWrite(led10, HIGH);
-    delay(2000);
-    digitalWrite(led10, LOW);
-    digitalWrite(led9, HIGH);
-    delay(2000);
-    digitalWrite(led9, LOW);
-    digitalWrite(led8, HIGH);
-    delay(2000);
-    digitalWrite(led8, LOW);
     digitalWrite(led7, HIGH);
-    delay(2000);
+    oldTimeSensorOne = millis();
+  }else if((currentTime - oldTimeSensorOne) > 2){
     digitalWrite(led7, LOW);
-    digitalWrite(led6, HIGH);
-    delay(2000);
-    digitalWrite(led6, LOW);
   }
 
 }
