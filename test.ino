@@ -54,8 +54,8 @@ void loop() {
 
   if(distFromUSS2() <= 150) {
     digitalWrite(led7, HIGH);
-    oldTimeSensorOne = millis();
-  }else if((currentTime - oldTimeSensorOne) > 2){
+    oldTimeSensorTwo = millis();
+  }else if((currentTime - oldTimeSensorTwo) > 2){
     digitalWrite(led7, LOW);
   }
 
