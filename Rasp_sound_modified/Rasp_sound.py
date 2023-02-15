@@ -6,6 +6,8 @@ import time
 GPIO.setmode(GPIO.BOARD)
 trigger_pin = 16
 echo_pin = 18
+arduino = 4
+GPIO.setup(arduino, GPIO.IN)
 GPIO.setup(trigger_pin, GPIO.OUT)
 GPIO.setup(echo_pin, GPIO.IN)
 
@@ -17,70 +19,27 @@ tempo_encerrar_som = 20
 volume = 0
 distancia_maxima = 80
 musica_tocando = False
-musica = vlc.MediaPlayer("./Music/como-uma-onda.mp3")
+musica = vlc.MediaPlayer("./")
 
-#Metodo para calcular distancia:
-def calcularDistancia():
-    tempo_inicial = 0
-    tempo_final = 0
-    #Ativando trigger:
-    GPIO.output(trigger_pin, True)
-    time.sleep(0.00001)
-    GPIO.output(trigger_pin, False)
-
-    #Definindo tempos inicial/final
-    while GPIO.input(echo_pin) == 0:
-        tempo_inicial = time.time()
-        time.sleep(0.00001)
-    while GPIO.input(echo_pin) == 1:
-        tempo_final = time.time()
-        time.sleep(0.00001)
-
-    #Calculando delta tempo
-    variacao_tempo = tempo_final - tempo_inicial
-
-    #Distancia = Vm * Dtempo, Vm = 343m/s(som); Dtempo = variacao/2(pois o som percorre a distancia 2x)
-    distancia = (variacao_tempo * 34300)/2
-
-    #Arredondar
-    distancia = round(distancia, 2)
-    return distancia
-
-#Tratar excessoes:
-while True:
-    try:
-        distancia = calcularDistancia()
-        
-        #Alguem se aproxima:
-        if distancia <= distancia_maxima and (not musica_tocando):
-            print('Musica começou a tocar!')
-            musica.play()
-            
-            for i in range(1, tempo_iniciar_som+1):
-                volume = round(i/tempo_iniciar_som*100)
-                print('Volume: ', volume)
-                musica.audio_set_volume(volume)
-                time.sleep(1)
+if arduino == 1:
+    if (not musica_tocando):
+        print('Musica começou a tocar!')
+        musica.play()
+        for i in range(1, tempo_iniciar_som+1):
+            volume = round(i/tempo_iniciar_som*100)
+            print('Volume: ', volume)
+            musica.audio_set_volume(volume)
+            time.sleep(1)
             
             musica_tocando = True
-        
-        #Ainda há presença:
-        if distancia <= distancia_maxima and musica_tocando:
+else:
+    if musica_tocando:
+        musica_tocando = False
+        for j in range(tempo_encerrar_som, -1, -1):
+            volume = round(j/tempo_encerrar_som*100)
+            print('Volume: ', volume)
+            musica.audio_set_volume(volume)
             time.sleep(1)
-
-        #Nao ha ninguem:
-        if distancia > distancia_maxima and musica_tocando:
-            musica_tocando = False
-            for j in range(tempo_encerrar_som, -1, -1):
-                volume = round(j/tempo_encerrar_som*100)
-                print('Volume: ', volume)
-                musica.audio_set_volume(volume)
-                time.sleep(1)
-            musica.stop()
-            print('Musica parou a tocar!')
-
-    except KeyboardInterrupt():
-        GPIO.cleanup()
-
-
+        musica.stop()
+        print('Musica parou a tocar!')
 
